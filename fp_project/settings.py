@@ -140,25 +140,3 @@ LOGIN_URL = 'users:login'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-
-# Platform.sh settings.
-
-config = Config()
-if config.is_valid_platform():
-    ALLOWED_HOSTS.append('.platformsh.site')
-if config.appDir:
-    STATIC_ROOT = Path(config.appDir) / 'static'
-if config.projectEntropy:
-    SECRET_KEY = config.projectEntropy
-if not config.in_build():
-    db_settings = config.credentials('database')
-DATABASES = {
-'default': {
-'ENGINE': 'django.db.backends.postgresql',
-'NAME': db_settings['path'],
-'USER': db_settings['username'],
-'PASSWORD': db_settings['password'],
-'HOST': db_settings['host'],
-'PORT': db_settings['port'],
-},
-}
