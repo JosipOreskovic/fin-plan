@@ -1,0 +1,17 @@
+{% extends "fin_plan_app/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <p><a href="{% url 'fin_plan_app:edit_task' task.id %}">{{ client }}</a></p>
+
+  <p>Uredi</p>
+  <form action="{% url 'fin_plan_app:edit_task' task.id %}" method='post'>
+  	{% csrf_token %}
+  	{{ form|crispy }}
+
+  	<button type="submit" class="btn btn-primary">Spremi</button>
+  </form>
+  
+{% endblock content %}

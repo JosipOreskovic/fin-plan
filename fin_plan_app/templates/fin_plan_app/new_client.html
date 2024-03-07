@@ -1,0 +1,15 @@
+{% extends "fin_plan_app/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <p>Dodajte novog klijenta</p>
+
+  <form lass="form-inline" action="{% url 'fin_plan_app:new_client' %}" method='post'>
+  	{% csrf_token %}
+  	{{ form|crispy }}
+  	<button type="submit" class="btn btn-primary">Dodaj</button>
+  </form>
+  
+{% endblock content %}

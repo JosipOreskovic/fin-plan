@@ -1,0 +1,16 @@
+{% extends "fin_plan_app/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <p><a href="{% url 'fin_plan_app:new_note' client.id %}">{{ client }}</a></p>
+
+  <p>Dodaj novu bilješku</p>
+  <form action="{% url 'fin_plan_app:new_note' client.id %}" method='post'>
+  	{% csrf_token %}
+  	{{ form|crispy }}
+  	<button type="submit" class="btn btn-primary">Dodaj</button>
+  </form>
+  
+{% endblock content %}

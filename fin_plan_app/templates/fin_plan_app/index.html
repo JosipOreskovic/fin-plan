@@ -1,0 +1,16 @@
+{% extends "fin_plan_app/base.html" %}
+
+{% block page_header %}
+  <div class="jumbotron">
+      <div style="text-align: center;"><h1 class="display-3">FinPlan</h1></div>
+      <div style="text-align: center;"><h1 class="display-4">Organizator računovodstvenih poslova</h1></div>
+
+      <div style="text-align: center;"><p class="lead">Pratite sve informacije o vašim klijentima
+          i organizirajte vaše svakodnevne računovodstvene poslove na jednom mjestu</p></div>
+
+      {% if not user.is_authenticated %}
+        <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}"
+          role="button">Registracija &raquo;</a>
+      {% endif %}
+  </div>
+{% endblock page_header %}
