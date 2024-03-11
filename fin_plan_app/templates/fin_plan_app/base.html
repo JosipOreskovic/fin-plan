@@ -36,16 +36,12 @@
 		  </ul>
 		  <ul class="navbar-nav ml-auto">
 			  {% if user.is_authenticated %}
-			    <li class="nav-item">
-					<a class="nav-link" href="{% url 'users:logout' %}">Odjava</a>
-				</li>
 				<li class="nav-item">
 					<span class="navbar-text">Pozdrav, {{ user.username }}.</span>
 				</li>
 			  {% else %}
-			    <li class="nav-item">
-					<a class="nav-link" href="{% url 'users:register' %}">Registracija</a>
-				</li>
+			  	<li class="nav-item">
+					<a class="nav-link" href="{% url 'users:register' %}">Registracija</a></li>
 			    <li class="nav-item">
 					<a class="nav-link" href="{% url 'users:login' %}">Prijava</a></li>
 			  {% endif %}
@@ -60,6 +56,13 @@
 	  </div>
 	  <div>
 		  {% block content %}{% endblock content %}
+		  {% if user.is_authenticated %}
+			<hr />
+			<form action="{% url 'users:logout' %}" method='post'>
+			{% csrf_token %}
+			<button type="submit" class="btn btn-primary">Odjava</button>
+			</form>
+		  {% endif %}
 	  </div>
   </main>
 
