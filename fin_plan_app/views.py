@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from datetime import timedelta
+from datetime import timedelta, datetime
+from dateutil.relativedelta import relativedelta
 
 from .models import Client, Task, Note
 from .forms import ClientForm, TaskForm, NoteForm
@@ -74,24 +75,31 @@ def new_task(request, client_id):
 	else:
 		#POST data submitted; process data
 		form = TaskForm(data=request.POST)
-		if form.is_valid():
+		if form.is_valid():	
 			new_task = form.save(commit=False)
 			new_task.owner = request.user
 			new_task.client = client
 			new_task.save()
 			
 			if new_task.recurring  == '1':
-				delta =  new_task.end_date - new_task.due_date
-				step = timedelta(weeks = 1)
-				due_date_delta = step
-				while due_date_delta < delta:
+				if new_task.recurring_period == '0':
+					step = relativedelta(years = 1)	
+				elif new_task.recurring_period == '1':
+					step = relativedelta(months = 1)
+				elif new_task.recurring_period == '2':
+					step = relativedelta(weeks = 1)
+				elif new_task.recurring_period == '3':
+					step = relativedelta(days = 1)
+				due_date  = new_task.due_date + step
+				while due_date <= new_task.end_date:
 					form = TaskForm(data=request.POST)
 					new_task = form.save(commit=False)
 					new_task.owner = request.user
 					new_task.client = client
-					new_task.due_date = new_task.due_date + due_date_delta
+					new_task.due_date = due_date
 					new_task.save()
-					due_date_delta += step
+					due_date += step
+					
 			return redirect('fin_plan_app:client', client_id=client.id)
 
 	#Display a blank or invalid form

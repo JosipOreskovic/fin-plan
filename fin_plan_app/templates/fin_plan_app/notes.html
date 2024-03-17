@@ -16,11 +16,11 @@
 			<a href="{% url 'fin_plan_app:delete_note' note.id %}" class="btn btn-danger btn-sm">Obriši</a>
 		</h4>
 	    <div class="card-body">
-          {{ note.date_added }} {{ note.client }}
+          {{ note.date_added|date:'d.m.Y' }} {{ note.client }}
         </div>
 	  </div>
   	{% empty %}
-  	  <li><h3>Nije dodan niti jedna bilješka.</h3></li>
+  	  <li><h3>Nije dodana niti jedna bilješka.</h3></li>
   	{% endfor %}
   </ul>
 
