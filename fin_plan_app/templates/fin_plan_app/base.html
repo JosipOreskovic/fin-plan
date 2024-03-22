@@ -37,35 +37,44 @@
 				  <a class="nav-link" href="{% url 'fin_plan_app:notes'%}">
 					  Bilješke</a></li>
 		  </ul>
-		  <ul class="navbar-nav ml-auto">
+		  
 			  {% if user.is_authenticated %}
+			  <ul class="navbar-nav ml-auto">
 				<li class="nav-item">
 					<span class="navbar-text">Pozdrav, {{ user.username }}.</span>
 				</li>
+			  </ul>
 			  {% else %}
-			  	<li class="nav-item">
-					<a class="nav-link" href="{% url 'users:register' %}">Registracija</a></li>
-			    <li class="nav-item">
-					<a class="nav-link" href="{% url 'users:login' %}">Prijava</a></li>
+<!--			  <ul class="navbar-nav ml-auto"> -->
+<!--			  	<li class="nav-item"> -->
+<!--				<a class="nav-link" href="{% url 'users:register' %}">Registracija</a></li> -->
+				
 			  {% endif %}
 		  </ul>
-
 	  </div>
+	  {% if user.is_authenticated %}
+	  <div class="ml-auto">
+		<form action="{% url 'users:logout' %}" method='post'>
+		  {% csrf_token %}
+		  <button type="submit" class="btn btn-primary">Odjava</button>
+		</form>
+	  </div>
+	  {% else %}
+	  <div class="ml-auto">
+		<form action="{% url 'users:login' %}" method='post'>
+			{% csrf_token %}
+			<button type="submit" class="btn btn-primary">Prijava</button>
+		</form>
+	  </div>
+	{% endif %}
   </nav>
 
   <main role="main" class="container">
 	  <div class="pb-2 mb-2 border-bottom">
 		  {% block page_header %}{% endblock page_header %}
 	  </div>
-	  <div>
+	  <div></div>
 		  {% block content %}{% endblock content %}
-		  {% if user.is_authenticated %}
-			<hr />
-			<form action="{% url 'users:logout' %}" method='post'>
-			{% csrf_token %}
-			<button type="submit" class="btn btn-primary">Odjava</button>
-			</form>
-		  {% endif %}
 	  </div>
   </main>
 
